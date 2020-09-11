@@ -7,8 +7,9 @@
 // @match        https://www.google.com/*
 // @grant        none
 // ==/UserScript==
-let keywords = ['Гобой','Как звучит флейта','Кларнет'];
-let keyword = keyword = keywords[getRandom(0,keywords.lenght)];
+
+let keywords = ['Гобой','Как звучит флейта', 'Кларнет'];
+let keyword = keywords[getRandom(0,keywords.length)];
 let btnK = document.getElementsByName('btnK')[0];
 
 if (btnK != undefined){
@@ -28,9 +29,7 @@ if (btnK != undefined){
 
 function getRandom(min,max){
     return Math.floor(Math.random()*(max-min)+min);
-
 }
-
 
 
 
