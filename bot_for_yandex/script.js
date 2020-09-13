@@ -1,33 +1,56 @@
 // ==UserScript==
-// @name         Bot for yandex
+// @name         Bot for google
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        https://yandex.ru/*
+// @match        https://www.google.com/*
+// @match        https://xn----7sbab5aqcbiddtdj1e1g.xn--p1ai/*
 // @grant        none
 // ==/UserScript==
 
-document.getElementsByName('text')[0].value = "Гобой"
-
-document.getElementsByClassName('button mini-suggest__button button_theme_websearch button_size_ws-head i-bem button_js_inited')[0];
-
-let keywords = ['Гобой','Как звучит флейта', 'Кларнет'];
+let googleInput = document.getElementsByName('q')[0];
+let keywords = ['Гобой','Как звучит флейта', 'Кларнет','Саксофон','Тромбон','Валторна'];
 let keyword = keywords[getRandom(0,keywords.length)];
-let search = document.getElementsByClassName('button mini-suggest__button button_theme_websearch button_size_ws-head i-bem button_js_inited')[0];
+let btnK = document.getElementsByName('btnK')[0];
+let i =0;
+let links = document.links;
 
-if (search != undefined){
-    document.getElementsByName('text')[0].value = keyword;
-    document.getElementsByClassName('button mini-suggest__button button_theme_websearch button_size_ws-head i-bem button_js_inited')[0].click();
+if (btnK != undefined){
+    let timerId = setInterval(()=>{
+        googleInput.value += keyword[i];
+        i++;
+        if (i==keyword.length){
+            clearInterval(timerId);
+            btnK.click();
+        }
+    },1000);
+}else if(location.hostname == "xn----7sbab5aqcbiddtdj1e1g.xn--p1ai"){
+    setInterval(()=>{
+        let index = getRandom(0,links.length);
+        if (getRandom(0,101)>=80){
+            location.href = 'https://www.google.com/';
+        }
+        else if (links[index].href.indexOf("xn----7sbab5aqcbiddtdj1e1g.xn--p1ai") != -1)
+            links[index].click();
+    },getRandom(3000,7000));
 }else{
-    let links = document.links;
-
+    let nextGooglePage = true;
     for(let i=0; i<links.length; i++){
-        if(links[i].href.indexOf("muz-story.ru") != -1){
-            console.log("Ссылка найдена "+links[i]);
-            links[i].click();
+        if(links[i].href.indexOf("xn----7sbab5aqcbiddtdj1e1g.xn--p1ai") != -1){
+            let link = links[i];
+            nextGooglePage = false;
+            setTimeout(()=>{link.click();},getRandom(1000,4000));
             break;
         }
+    }
+    if (document.querySelector('.YyVfkd').innerText=="10"){
+        nextGooglePage = false;
+        location.href = 'https://www.google.com/';
+    }
+
+    if (nextGooglePage){
+        setTimeout(()=>{pnnext.click();},getRandom(1000,4000));
     }
 }
 
